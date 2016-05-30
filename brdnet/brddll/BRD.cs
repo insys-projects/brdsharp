@@ -5,6 +5,8 @@ using System.Text;
 
 using System.Runtime.InteropServices;
 
+using BRD_API = brd_internal.BRD_API;
+
 namespace brd
 {
 
@@ -150,7 +152,7 @@ namespace brd
 
         ~Service()
         {
-            //BRD_API.BRD_release(_h, nodeId);
+            BRD_API.BRD_release(_h, nodeId);
         }
 
         public Int32 heandle
@@ -160,7 +162,7 @@ namespace brd
 
         public Int32 ctrl<T>(UInt32 cmd, ref T arg)
         {
-            return 0;//BRD_API.BRD_ctrl(_h, 0, cmd, ref arg );
+            return BRD_API.BRD_ctrl(_h, 0, cmd, ref arg );
         }
 
     }
@@ -182,7 +184,7 @@ namespace brd
 
 
 
-            int err = 0;//BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_READIND, ref io);
+            int err = BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_READIND, ref io);
 
            
             
@@ -203,7 +205,7 @@ namespace brd
 
            
 
-            int err = 0;//BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_WRITEIND, ref io );
+            int err = BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_WRITEIND, ref io );
 
 
 
@@ -222,7 +224,7 @@ namespace brd
 
 
 
-            int err = 0;//BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_READDIR, ref io);
+            int err = BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_READDIR, ref io);
 
 
 
@@ -243,7 +245,7 @@ namespace brd
 
           
 
-            int err = 0;//BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_WRITEDIR, ref io );
+            int err = BRD_API.BRD_ctrl(_h, 0, (uint)BRDctrl_REG.BRDctrl_REG_WRITEDIR, ref io );
 
 
         }
@@ -284,28 +286,49 @@ namespace brd
         public int Length { get { return _list.Length; } }
     }
 
-    static class NativeMethods
-    {
-            [DllImport("kernel32.dll")]
-            public static extern IntPtr LoadLibrary(string dllToLoad);
-
-            [DllImport("kernel32.dll")]
-            public static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
-
-
-            [DllImport("kernel32.dll")]
-            public static extern bool FreeLibrary(IntPtr hModule);
-    }
-
     public class BRD
     {
         static BRD()
         {            
             Int32 nn = 0;
 
-            
+            BRD_API.BRD_init(null, out nn);
 
-            
+            _GetLidList();
+        }
+
+        private static void _GetLidList()
+        {
+            UInt32 pItemReal;
+
+            BRD_API.BRD_lidList(null, 0, out pItemReal);
+
+            UInt32[] pList = new UInt32[pItemReal];
+
+            BRD_API.BRD_lidList(pList, pItemReal, out pItemReal);
+
+            BRD_Info info = default(BRD_Info);
+
+            _info = new LidList();
+
+            for (int i = 0; i < pItemReal; i++)
+            {
+
+
+
+
+                info.size = (uint)Marshal.SizeOf(info);
+
+
+                int err = BRD_API.BRD_getInfo(pList[i], ref  info);
+
+                uint lid = pList[i];
+
+                _info[(int)lid] = info;
+
+            }
+
+            _lidList = _info.Keys.ToArray<int>();
         }
 
         protected static LidList _info;
@@ -335,25 +358,14 @@ namespace brd
 
         public static void cleanup()
         {
-            //BRD_API.BRD_cleanup( );
+            BRD_API.BRD_cleanup( );
         }
 
         protected Int32 _h;
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int MultiplyByTen(int numberToMultiply);
-
         public BRD(string name)
         {
-            bool win64 = Environment.Is64BitProcess;//.IsWin64();	
-
-             IntPtr pDll = NativeMethods.LoadLibrary( ".dll" );
-            
-             IntPtr pAddressOfFunctionToCall = NativeMethods.GetProcAddress(pDll, "MultiplyByTen");
-            
-            MultiplyByTen multiplyByTen = (MultiplyByTen)Marshal.GetDelegateForFunctionPointer(
-                                                                                        pAddressOfFunctionToCall,
-                                                                                        typeof(MultiplyByTen));
+           
 
             UInt32 flag = 0;
 
@@ -367,7 +379,7 @@ namespace brd
                 {
                    
                     
-                    _h = 0;//BRD_API.BRD_open((UInt32)lid, flag, out flag);
+                    _h = BRD_API.BRD_open((UInt32)lid, flag, out flag);
 
                     return;
                 }
@@ -385,21 +397,21 @@ namespace brd
             {
                 UInt32 pItemReal;
 
-                //BRD_API.BRD_lidList(null, 0, out pItemReal);
+                BRD_API.BRD_lidList(null, 0, out pItemReal);
 
                 UInt32[] pList = new UInt32[10];
 
-                //BRD_API.BRD_lidList(pList, 10, out pItemReal);
+                BRD_API.BRD_lidList(pList, 10, out pItemReal);
 
                 lid = (int)pList[0];
             }
 
-            _h = 0;//BRD_API.BRD_open((UInt32)lid, flag, out flag);
+            _h = BRD_API.BRD_open((UInt32)lid, flag, out flag);
         }
 
         ~BRD()
         {
-            //BRD_API.BRD_close(_h);
+            BRD_API.BRD_close(_h);
         }
 
         protected ServiceList _serviceList;
@@ -415,11 +427,11 @@ namespace brd
 
                 BRD_ServList[] pList = null;
 
-                //BRD_API.BRD_serviceList(_h, 0, pList, 0, out pItemReal);
+                BRD_API.BRD_serviceList(_h, 0, pList, 0, out pItemReal);
 
-                pList = new BRD_ServList[0];
+                pList = new BRD_ServList[pItemReal];
 
-                //BRD_API.BRD_serviceList(_h, 0, pList, pItemReal, out pItemReal);
+                BRD_API.BRD_serviceList(_h, 0, pList, pItemReal, out pItemReal);
 
                 _serviceList = new ServiceList();
 
@@ -452,7 +464,7 @@ namespace brd
 
         public T capture<T>(string name, UInt32 pMode = 0 ) where T :Service,new()
         {
-            Int32 _sh = 0;//BRD_API.BRD_capture( _h, 0, out pMode, "REG0", -1);
+            Int32 _sh = BRD_API.BRD_capture( _h, 0, out pMode, "REG0", -1);
 
             Service s = new T();
 

@@ -1,0 +1,64 @@
+﻿<icr>
+
+<dev name="" type="" base="1"/>
+
+  <struct tag="0x4953" size="17">
+<group title="Параметры базового модуля" open="1" color="255,255,191">
+
+<field name="Серийный номер " offset="6" size="4" type="int" />
+</group>
+
+  </struct>
+	
+  <struct tag="0x0620" size="21"></struct>  
+
+<struct tag="0x4D50" size="5"></struct>
+
+
+
+<struct tag="0x0100" size="18">
+
+   
+	</struct>
+
+<struct tag="0x0200" size="8">
+
+   
+	</struct>
+
+<struct tag="0x0300" size="26">
+
+   
+	</struct>
+
+<struct tag="0x0310" size="18">
+
+   
+	</struct>
+
+<struct tag="0x0400" size="9">
+
+   
+	</struct>
+
+<struct tag="0x0500" size="23">
+
+   
+	</struct>
+
+<struct tag="0x0510" size="11">
+
+   
+	</struct>
+
+<struct tag="0x0600" size="21"></struct>
+<struct tag="0x0610" size="22"></struct>
+
+<struct tag="0x0710" size="11"></struct>
+<struct tag="0x0720" size="8"></struct>
+<struct tag="0x0730" size="14"></struct>
+
+<struct tag="0x0800" size="14"></struct>
+
+
+</icr>

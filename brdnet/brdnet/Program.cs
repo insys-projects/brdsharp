@@ -11,7 +11,8 @@ namespace brdnet
     {
         static void Main(string[] args)
         {
-            Console.WriteLine( "==== {0} LIDS ===", BRD.lidList.Length );
+            /*
+             * Console.WriteLine( "==== {0} LIDS ===", BRD.lidList.Length );
 
             foreach (BRD_Info info in BRD.info)
             {
@@ -20,7 +21,18 @@ namespace brdnet
 
             }
 
-            BRD b = new BRD( "pex5" );
+             * */
+            System.Collections.Hashtable brdinfo = new System.Collections.Hashtable()
+            {
+
+               { "pid" , 2}
+
+            };
+
+
+            brdinfo["lid"] = 1;
+
+            BRD b = new BRD( "pex5[11854]" );
 
             ServiceList serviceList = b.serviceList;
 

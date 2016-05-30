@@ -1,0 +1,22 @@
+﻿<icr>
+
+<dev name="" type="" />
+
+
+<struct tag="0x0080" size="18">
+
+   
+	</struct>
+
+<struct tag="0x0100" size="18">
+
+   
+	</struct>
+
+<struct tag="0x0200" size="8">
+
+   
+	</struct>
+
+
+</icr>

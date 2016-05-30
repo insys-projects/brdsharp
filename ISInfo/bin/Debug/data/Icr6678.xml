@@ -1,0 +1,132 @@
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+  <dev name="FMC110P-6678" type="0x6610" base="1"/>
+  <dev name="FMC112cP-6678" type="0x6612" base="1"/>
+  <dev name="FMC114V-6678" type="0x6614" base="1"/>
+  <dev name="PEX-SRIO-6678" type="0x6615" base="1"/>
+  <dev name="FMC117cP-6678" type="0x6617" base="1"/>
+  <dev name="DSP6678PEX-6678" type="0x6620" base="1"/>
+
+  <struct tag="0x6678" size="58">
+
+  <group title="Common Parameters" open="1" color="255,255,191">
+    <field name="CPU_CNT" offset="4" size="1" default="2" type="int"/>
+    <field name="CPUTYPE" offset="5" size="1" default="78" type="list">
+      <item val="78" descr="TI6678" />
+      <item val="74" descr="TI6674" />
+      <item val="72" descr="TI6672" />
+      <item val="71" descr="TI6671" />
+    </field>
+    <field name="ORDER" offset="6" size="1" default="0" type="int"/>
+    <field name="FPGA_CNT" offset="7" size="1" default="0" type="int"/>
+  </group>
+
+
+  <group title="Base Clocks" open="1" color="255,191,255">
+    <field name="CPU   CLK" offset="8" size="4" default="100000000" type="int" />
+    <field name="PCIe  CLK" offset="12" size="4" default="100000000" type="int" />
+    <field name="PA    CLK" offset="16" size="4" default="156250000" type="int" />
+    <field name="DDR3  CLK" offset="20" size="4" default="156250000" type="int" />
+    <field name="SRIO  CLK" offset="24" size="4" default="156250000" type="int" />
+    <field name="HYPER CLK" offset="28" size="4" default="156250000" type="int" />
+  </group>
+
+ 
+  <group title="Interfaces" open="1" color="191,255,255">
+    <field name="ETHERNET0" offset="32" size="1" default="1" type="list">
+      <item val="1" descr="Есть Ethernet 0" />
+      <item val="0" descr="Нет  Ethernet 0" />
+    </field>
+
+    <field name="ETHERNET1" offset="33" size="1" default="1" type="list">
+      <item val="1" descr="Есть Ethernet 1" />
+      <item val="0" descr="Нет  Ethernet 1" />
+    </field>
+
+    <field name="HYPERLINK" offset="34" size="1" default="1" type="list">
+      <item val="1" descr="Есть HYPERLINK" />
+      <item val="0" descr="Нет  HYPERLINK" />
+    </field>
+
+    <field name="PCIExpress" offset="35" size="1" default="1" type="list">
+      <item val="1" descr="Есть PCIExpress" />
+      <item val="0" descr="Нет  PCIExpress" />
+    </field>
+
+    <field name="SPI" offset="36" size="1" default="1" type="list">
+      <item val="1" descr="Есть SPI" />
+      <item val="0" descr="Нет  SPI" />
+    </field>
+
+    <field name="I2C" offset="37" size="1" default="1" type="list">
+      <item val="1" descr="Есть I2C" />
+      <item val="0" descr="Нет  I2C" />
+    </field>
+
+    <field name="SRIO" offset="38" size="1" default="14" type="list">
+      <item val="14" descr="Есть SRIO 1 x4 lines" />
+      <item val="22" descr="Есть SRIO 2 x2 lines" />
+      <item val="41" descr="Есть SRIO 4 x1 lines" />
+      <item val="0" descr="Нет  SRIO" />
+    </field>
+
+    <field name="UART" offset="39" size="1" default="32" type="list">
+      <item val="32" descr="Есть UART = RS-232" />
+      <item val="22" descr="Есть UART = RS-422" />
+      <item val="85" descr="Есть UART = RS-485" />
+      <item val="0" descr="Нет  UART" />
+    </field>
+  </group>
+
+  <group title="LED INDICATORS" open="1" color="191,255,120">
+    <field name="GPIO LED MASK" offset="40" size="4" type="hex" default="0x77777777"/>
+  </group>
+
+
+  <group title="Flash Memory" open="1" color="191,255,191">
+    <field name="NAND SIZE (BYTES)" offset="44" size="4" type="hex" default="0x20000000"/>
+    <field name="NOR SIZE (BYTES)" offset="48" size="4" type="hex" default="0x02000000"/>
+  </group>
+
+  <group title="DDR3 Memory Parameters" open="1" color="191,191,255">
+    <field name="DDR3 SIZE (32-Bits Words)" offset="52" size="4" type="hex" default="0x80000000"/>
+  </group>
+	
+    </struct>
+
+</icr>
+
+
+
+
+
+
+
+
+
+
+
