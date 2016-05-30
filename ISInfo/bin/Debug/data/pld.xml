@@ -1,0 +1,23 @@
+﻿<icr>
+
+<trd name="MAIN" type="0x01" />
+
+<trd name="TRD_FM412x500M" type="0x89" />
+
+
+
+<struct tag="" size="18">
+
+   <group title="Константы" open="1" color="255,255,191">
+
+<field name="ID тетрады " offset="0" size="2" type="hex" />
+
+<field name="Модификатор тетрады " offset="2" size="2" type="hex" />
+</group>
+
+	</struct>
+
+
+
+
+</icr>
