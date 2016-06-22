@@ -343,7 +343,7 @@ namespace brd
             }
         }
             
-        public static LidList info
+        public static LidList list
         {
             get
             {
@@ -356,12 +356,22 @@ namespace brd
             }
         }
 
+        public BRD_Info getInfo()
+        {
+            BRD_Info info = default(BRD_Info);
+            
+            BRD_API.BRD_getInfo( (uint)_lid, ref  info);
+
+            return info;
+        }
+
         public static void cleanup()
         {
             BRD_API.BRD_cleanup( );
         }
 
         protected Int32 _h;
+        protected Int32 _lid;
 
         public BRD(string name)
         {
@@ -375,11 +385,12 @@ namespace brd
             {
               
                 
-                if( info[lid].name.Contains( name ) )
+                if( list[lid].name.Contains( name ) )
                 {
                    
                     
                     _h = BRD_API.BRD_open((UInt32)lid, flag, out flag);
+                    _lid = lid;
 
                     return;
                 }
@@ -406,7 +417,8 @@ namespace brd
                 lid = (int)pList[0];
             }
 
-            _h = BRD_API.BRD_open((UInt32)lid, flag, out flag);
+            _h = BRD_API.BRD_open((UInt32)lid, flag, out flag); 
+            _lid = lid;
         }
 
         ~BRD()
@@ -464,7 +476,7 @@ namespace brd
 
         public T capture<T>(string name, UInt32 pMode = 0 ) where T :Service,new()
         {
-            Int32 _sh = BRD_API.BRD_capture( _h, 0, out pMode, "REG0", -1);
+            Int32 _sh = BRD_API.BRD_capture(_h, 0, out pMode, "REG0", 10000 );
 
             Service s = new T();
 
@@ -472,8 +484,13 @@ namespace brd
 
             return (T)s;
         }
-        
 
 
+
+
+        public static BRD open( int lid = -1 )
+        {
+            return new BRD(lid);
+        }
     }
 }

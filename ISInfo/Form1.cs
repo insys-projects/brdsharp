@@ -13,11 +13,13 @@ namespace ISInfo
 {
     public partial class Form1 : Form
     {
+        TreeNode trdn;
+            
         public Form1()
         {
             InitializeComponent();
 
-           
+            trdn = treeView1.Nodes.Add( "Тетрады" );
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -32,9 +34,16 @@ namespace ISInfo
 
         internal void Node(uint sig, System.Xml.XmlNode node, System.IO.BinaryReader br)
         {
-            long Start = br.BaseStream.Position;
+            
 
             TreeNode trn = treeView1.Nodes.Add("0x" + sig.ToString("X"));
+
+            NodeStruct(trn,node,br);
+        }
+
+        internal void NodeStruct(TreeNode trn, System.Xml.XmlNode node, System.IO.BinaryReader br)
+        {
+            long Start = br.BaseStream.Position;
 
             XmlNodeList grps = node.SelectNodes("group");
 
@@ -71,6 +80,7 @@ namespace ISInfo
                                 else
                                     Value = bytes[0].ToString("X");
 
+                                Value = "0x" + Value;
 
                                 break;
                             }
@@ -127,6 +137,20 @@ namespace ISInfo
             }
 
             return intval.ToString();
+        }
+
+        internal void TrdNode(string name,System.IO.BinaryReader br,XmlNode xmlNode)
+        {
+
+            br.BaseStream.Position = 4;
+
+
+            TreeNode trn = trdn.Nodes.Add(name);
+
+
+            NodeStruct(trn, xmlNode, br);
+
+
         }
     }
 }
