@@ -28,16 +28,16 @@
 -->
 
 <icr>
-	<dev name="FM416x1G5D" type="0x1070"/>
+	<dev name="FM416x500MD" type="0x10B0"/>
 	
-	<struct tag="0x009B" size="35"> 
+	<struct tag="0x00A2" size="35"> 
 
 	<!-- 
 	====  Конфигурационная структура субмодуля 
 	-->
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		<field name="Тип субмодуля" offset="5" size="1" default="0" type="int" invisible="1" />
-		<field name="Количество ЦАП" offset="6" size="1" default="4" type="spin-int" min="0" max="4"/>
+		<field name="Количество ЦАП" offset="6" size="1" default="4" type="spin-int" min="0" max="4" inc="2"/>
 		<field name="Тип ЦАП" offset="7" size="1" default="0" type="int" invisible="1" />
 		<field name="Частота среза ФНЧ (МГц)" offset="8" size="4" default="120" type="double" min="0" max="1000000" prec="6"/>
 		<field name="Выходное сопротивление" offset="12" size="1" default="0" type="list">
@@ -59,10 +59,7 @@
 		</field>	
 		<field name="Количество QM" offset="24" size="1" default="2" type="spin-int" min="0" max="2"/>
 		<field name="Тип QM" offset="25" size="1" default="0" type="int" invisible="1" />
-		<field name="Тип ЦАП смещения" offset="26" size="1" default="1" type="list">
-			<item val="0" descr="отсутствует" />
-			<item val="1" descr="AD5621" />
-		</field>	
+		<field name="Резерв" offset="26" size="1" default="0" type="int" invisible="1" />
 		<field name="Тип ЦАП старта" offset="27" size="1" default="1" type="list">
 			<item val="0" descr="отсутствует" />
 			<item val="1" descr="AD5621" />
@@ -79,7 +76,7 @@
 			<item val="0" descr="нет" />
 			<item val="1" descr="да" />
 		</field>	
-		<field name="Макс. частота отсчетов (МГц)" offset="31" size="4" default="750" type="double" min="0" prec="6"/>
+		<field name="Макс. частота отсчетов (МГц)" offset="31" size="4" default="500" type="double" min="0" prec="6"/>
 	</group>
 	</struct>
 	
@@ -105,11 +102,6 @@
 	</struct>
 
 </icr>
-
-
-
-
-
 
 
 

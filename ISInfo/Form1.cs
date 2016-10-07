@@ -71,7 +71,12 @@ namespace ISInfo
                     else if (bytes.Length == 1)
                         intval = bytes[0];
 
-                    switch (f.Attributes["type"].Value)
+                    string ftype = "";
+
+                    if (f.Attributes.GetNamedItem("type") != null)
+                        ftype = f.Attributes["type"].Value;
+
+                    switch ( ftype )
                     {
                         case "hex":
                             {

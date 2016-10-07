@@ -76,23 +76,26 @@ namespace ISInfo
 
         private static void BrdInfo(XmlDocument xmlDoc)
         {
-            BRD dev = BRD.open( );
+            BRD dev = BRD.open();
 
             BRD_Info info = dev.getInfo();
 
-            XmlNode root = xmlDoc.CreateNode(XmlNodeType.Element, "insys", ""); 
-            
-            XmlNode node;
-            
-            node = xmlDoc.CreateNode(XmlNodeType.Element, "device", "");
+            XmlNode root = xmlDoc.CreateNode(XmlNodeType.Element, "insys", "");
 
-            root.AppendChild(node); 
-            
-            node = xmlDoc.CreateNode(XmlNodeType.Element, "pld", "");
+            XmlElement node;
 
+            node = xmlDoc.CreateElement("device");
+
+            root.AppendChild(node);
+
+            node = xmlDoc.CreateElement("pld");
+            root.AppendChild(node);
             for (int i = 0; i < 16; i++)
             {
-                XmlElement trd = xmlDoc.CreateElement( "trd" );
+                if (dev.rgio.ri(i, 0x100) == 0 )
+                    continue;
+
+                XmlElement trd = xmlDoc.CreateElement("trd");
 
                 StringBuilder sb = new StringBuilder();
 
@@ -100,16 +103,32 @@ namespace ISInfo
                 {
                     int val = dev.rgio.ri(i, 0x100 + j);
 
-                    sb.Append( val.ToString("X4") );
+                    sb.Append(val.ToString("X4"));
                 }
 
 
-                trd.SetAttribute("id", i.ToString() );
+                trd.SetAttribute("id", i.ToString());
 
                 trd.AppendChild(xmlDoc.CreateCDataSection(sb.ToString()));
 
-                node.AppendChild(trd); 
+                node.AppendChild(trd);
             }
+
+            node = xmlDoc.CreateElement("icr");
+            node.SetAttribute("type", "base");
+
+            {
+               
+
+                byte[] idcfgrom = IdCfgRom.ReadIdCfgRom( dev, "" );
+
+                node.AppendChild(
+                    xmlDoc.CreateCDataSection(ByteToHex.ByteArrayToStringFastest(idcfgrom))
+                    );
+            }
+
+            
+
 
             root.AppendChild(node);
 
@@ -124,8 +143,12 @@ namespace ISInfo
                 {
                     case "trd":
                         {
+                            int id = 0;
 
-                            TrdNode(ParseBinary(node.InnerText),form, int.Parse(node.Attributes["id"].Value) );
+                            if (node.Attributes.GetNamedItem("id") != null)
+                                id = int.Parse(node.Attributes["id"].Value);
+
+                            TrdNode(ParseBinary(node.InnerText),form, id );
                             break;
                         }
                 }
