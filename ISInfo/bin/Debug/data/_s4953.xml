@@ -3,9 +3,21 @@
 <dev name="" type="" />
 
 
-<struct tag="0x0080" size="18">
 
-   
+	<!-- 
+	====  Идентификационная структура субмодуля 
+	-->
+	<struct tag="0x0080" size="18">
+	<group title="Стандартные параметры субмодуля" open="1" color="191,255,191">
+		<field name="Размер всех данных в ПЗУ субмодуля" offset="4" size="2" default="0" type="int" invisible="1"/>
+		<field name="Номер интерфейса ADM" offset="6" size="1" default="0" type="int" invisible="1"/>
+		<field name="Серийный номер субмодуля" offset="7" size="4" default="0" type="int"/>
+		<field name="Тип субмодуля" offset="11" size="2" default="0" type="int" invisible="1"/>
+		<field name="Версия субмодуля" offset="13" size="1" default="10" type="hex"/>
+		<field name="Дата: день" offset="14" size="1" default="0" type="int" invisible="1"/>
+		<field name="Дата: месяц" offset="15" size="1" default="0" type="int" invisible="1"/>
+		<field name="Дата: год" offset="16" size="2" default="0" type="int" invisible="1"/>
+	</group>
 	</struct>
 
 <struct tag="0x0100" size="18">

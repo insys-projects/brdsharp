@@ -43,14 +43,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(508, 416);
+            this.ClientSize = new System.Drawing.Size(508, 415);
             this.Controls.Add(this.treeView1);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(524, 454);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(524, 454);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "ISInfo";
             this.ResumeLayout(false);
 
         }

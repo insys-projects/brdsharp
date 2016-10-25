@@ -39,6 +39,9 @@ namespace ISInfo
             TreeNode trn = treeView1.Nodes.Add("0x" + sig.ToString("X"));
 
             NodeStruct(trn,node,br);
+
+            if( node.SelectNodes("group").Count > 0 )
+                trn.Text = trn.Text + " - " + node.SelectNodes("group").Item(0).Attributes["title"].Value;
         }
 
         internal void NodeStruct(TreeNode trn, System.Xml.XmlNode node, System.IO.BinaryReader br)
@@ -49,7 +52,18 @@ namespace ISInfo
 
             foreach (XmlNode grp in grps)
             {
-                TreeNode trn2 = trn.Nodes.Add(grp.Attributes["title"].Value);
+                TreeNode trn2;
+
+                if (grps.Count == 1)
+                {
+                    trn2 = trn;
+                }
+                else
+                {
+                    trn2 = trn.Nodes.Add(grp.Attributes["title"].Value);
+                }
+             
+                    
 
                 XmlNodeList fs = grp.SelectNodes("field"); 
                 
@@ -71,7 +85,7 @@ namespace ISInfo
                     else if (bytes.Length == 1)
                         intval = bytes[0];
 
-                    string ftype = "";
+                    string ftype = "int";
 
                     if (f.Attributes.GetNamedItem("type") != null)
                         ftype = f.Attributes["type"].Value;
@@ -89,6 +103,7 @@ namespace ISInfo
 
                                 break;
                             }
+                        case "spin-int":
                         case "int":
                             {
 
@@ -117,6 +132,11 @@ namespace ISInfo
 
 
 
+                                break;
+                            }
+                        default:
+                            {
+                                Value = "<undefined value>";
                                 break;
                             }
                     }

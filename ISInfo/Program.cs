@@ -33,8 +33,12 @@ namespace ISInfo
 
             ParseDatabase();
 
+            Form1 form = new Form1(); 
+            
             if (workMode == 1)
             {
+                form.Text = form.Text + " - " + Path.GetFileNameWithoutExtension(file);
+
                 xmlDoc.Load(file);
             }
             else
@@ -42,7 +46,7 @@ namespace ISInfo
                 BrdInfo( xmlDoc );
             }
 
-            Form1 form = new Form1();
+           
             
             foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
             {
