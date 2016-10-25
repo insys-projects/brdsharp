@@ -10,6 +10,8 @@ using BRD_API = brd_internal.BRD_API;
 namespace brd
 {
 
+
+
     public enum BRDcode
     {
         BRDerr_OK = 0
@@ -50,7 +52,7 @@ namespace brd
     }
     
     
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = 4)]
+    [StructLayout(LayoutKind.Sequential, CharSet = BRD_API.brdcharset, Pack = 4)]
     public struct BRD_PuList
     {
 
@@ -373,7 +375,7 @@ namespace brd
         protected Int32 _h;
         protected Int32 _lid;
 
-        public BRD(string name)
+        protected BRD(string name)
         {
            
 
@@ -399,7 +401,7 @@ namespace brd
             
         }
 
-        public BRD(int lid=-1)
+        protected BRD(int lid = -1)
         {
 
             UInt32 flag = 0;
@@ -491,6 +493,38 @@ namespace brd
         public static BRD open( int lid = -1 )
         {
             return new BRD(lid);
+        }
+
+        protected BRD_PuList[] _puList;
+
+        public BRD_PuList[] puList
+        {
+            get
+            {
+                if (_puList != null)
+                    return _puList;
+
+                UInt32 pItemReal;
+
+                BRD_PuList[] pList = null;
+
+                BRD_API.BRD_puList(_h,  pList, 0, out pItemReal);
+
+                pList = new BRD_PuList[pItemReal];
+
+                BRD_API.BRD_puList(_h, pList, pItemReal, out pItemReal);
+
+                _puList = pList;
+
+      
+
+                return _puList;
+            }
+        }
+
+        public int puRead(uint puId, int p, byte[] pBaseCfgMem, int size)
+        {
+            return BRD_API.BRD_puRead(_h, puId, (uint)p, pBaseCfgMem, (uint)size );
         }
     }
 }

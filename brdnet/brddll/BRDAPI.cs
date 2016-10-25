@@ -12,11 +12,11 @@ namespace brd_internal
     {
 
 #if BRD64
-        const string brddll = "brd64.dll";
-        const CharSet brdcharset = CharSet.Unicode;
+        public const string brddll = "brd64.dll";
+        public const CharSet brdcharset = CharSet.Unicode;
 #else
-        const string brddll = "brd.dll";
-        const CharSet brdcharset = CharSet.ASCII;
+        public const string brddll = "brd.dll";
+        public const CharSet brdcharset = CharSet.Ansi;
 #endif
 
 
@@ -63,9 +63,10 @@ namespace brd_internal
 
 
         [DllImport(brddll, CallingConvention = CallingConvention.StdCall)]
-        public static extern Int32 BRD_puList(Int32 h, UInt32 puId, out UInt32 state);
+        public static extern Int32 BRD_puList(Int32 h, [In, Out] BRD_PuList[] pList, UInt32 item, out UInt32 pItemReal);
 
-        //BRD_API S32		STDCALL BRD_puRead (BRD_Handle handle, U32 puId, U32 offset, void *hostAdr, U32 size );
+        [DllImport(brddll, CallingConvention = CallingConvention.StdCall)]
+        public static extern Int32 BRD_puRead(Int32 handle, uint puId, uint offset, [In, Out] byte[] hostAdr, uint size);
         //BRD_API S32		STDCALL BRD_puWrite(BRD_Handle handle, U32 puId, U32 offset, void *hostAdr, U32 size );
         //BRD_API S32		STDCALL BRD_puEnable(BRD_Handle handle, U32 puId );
 
