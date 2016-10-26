@@ -85,7 +85,7 @@ namespace ISInfo
                     else if (bytes.Length == 1)
                         intval = bytes[0];
 
-                    string ftype = "int";
+                    string ftype = "string";
 
                     if (f.Attributes.GetNamedItem("type") != null)
                         ftype = f.Attributes["type"].Value;
@@ -134,6 +134,15 @@ namespace ISInfo
 
                                 break;
                             }
+                        case "string":
+                            {
+
+                                Value = ParseString( bytes );
+
+
+
+                                break;
+                            }
                         default:
                             {
                                 Value = "<undefined value>";
@@ -149,6 +158,11 @@ namespace ISInfo
 
             br.BaseStream.Position = Start;
 
+        }
+
+        private string ParseString( byte[] bytes )
+        {
+            return System.Text.Encoding.ASCII.GetString(bytes, 0, bytes.Length );
         }
 
         private string ParseList(XmlNodeList xmlNodeList, uint intval)
