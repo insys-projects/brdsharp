@@ -3,14 +3,21 @@
 <dev name="" type="" base="1"/>
 
   <struct tag="0x4953" size="17">
-<group title="Параметры базового модуля" open="1" color="255,255,191">
+<group title="Идентификация базового модуля" open="1" color="255,255,191">
 
-<field name="Серийный номер " offset="6" size="4" type="int" />
+<field name="Серийный номер" offset="6" size="4" type="int" />
+<field name="Тип (DeviceID)" offset="10" size="2" type="hex" />
+<field name="Версия" offset="12" size="1" type="hex" />
 </group>
 
   </struct>
 	
-  <struct tag="0x0620" size="21"></struct>  
+  <struct tag="0x0620" size="21">
+	<group title="Описание базового модуля" open="1" color="255,255,191">
+
+		<field name="Описание" offset="5" size="16" default="comment"/>
+</group>
+</struct>  
 
 <struct tag="0x4D50" size="5"></struct>
 
@@ -22,12 +29,23 @@
 	</struct>
 
 <struct tag="0x0200" size="8">
+<group title="Конфигурация FIFO АЦП" open="1" color="255,255,191">
 
-   
+<field name="Глубина (в словах)" offset="6" size="1" type="int" />
+<field name="Ширина (число бит в слове)" offset="7" size="1" type="int" />
+</group>
+
 	</struct>
 
 <struct tag="0x0300" size="26">
+<group title="Конфигурация ЦАП" open="1" color="255,255,191">
 
+<field name="Разрядность (биты)" offset="6" size="1" type="int" />
+<field name="Тип кодировки" offset="7" size="1" type="int" />
+<field name="Минимальная частота дискретизации (Гц)" offset="8" size="4" default="1000" type="int"/>
+<field name="Максимальная частота дискретизации (Гц)" offset="12" size="4" default="30000000" type="int"/>
+<field name="Выходной диапазон (мВ)" offset="16" size="2" default="1000" type="int"/>
+</group>
    
 	</struct>
 
@@ -37,8 +55,13 @@
 	</struct>
 
 <struct tag="0x0400" size="9">
+<group title="Конфигурация FIFO ЦАП" open="1" color="255,255,191">
 
-   
+<field name="Глубина (в словах)" offset="6" size="1" type="int" />
+<field name="Ширина (число бит в слове)" offset="7" size="1" type="int" />
+<field name="Возможность циклического режима" offset="8" size="1" type="int" />
+</group>
+
 	</struct>
 
 <struct tag="0x0500" size="23">
@@ -52,7 +75,32 @@
 	</struct>
 
 <struct tag="0x0600" size="21"></struct>
-<struct tag="0x0610" size="22"></struct>
+<struct tag="0x0610" size="22">
+
+	<group title="Общая конфигурация базового модуля" open="1" color="255,255,191">
+
+		<field name="Количество FIFO АЦП" offset="5" size="1" default="0" type="int"/>
+		<field name="Количество ЦАП" offset="6" size="1" default="0" type="int"/>
+		<field name="Количество FIFO ЦАП" offset="7" size="1" default="0" type="int"/>
+		<field name="Частота опорного генератора 0 (Гц)" offset="8" size="4" default="30000000" type="int"/>
+		<field name="Частота опорного генератора 1 (Гц)" offset="12" size="4" default="50000000" type="int"/>
+		<field name="Количество узлов старта" offset="16" size="1" default="0" type="int"/>
+		<field name="Количество ПЛИС" offset="17" size="1" default="1" type="int"/>
+		<field name="Опорное напряжение ИПН (мВ)" offset="18" size="2" default="2500" type="int"/>
+
+		<field name="Тип PIO" offset="20" size="1" default="0" type="list">
+		<item val="0" descr="нет" />
+		<item val="1" descr="TTL" />
+		<item val="2" descr="LVDS" />
+		</field>
+
+		<field name="Тип интерфейса" offset="21" size="1" default="0" type="list">
+		<item val="0" descr="TTL" />
+		<item val="1" descr="LVDS" />
+		</field>
+</group>
+
+</struct>
 
 <struct tag="0x0710" size="11"></struct>
 <struct tag="0x0720" size="8"></struct>
