@@ -32,7 +32,9 @@ namespace brdnet
 
             brdinfo["lid"] = 1;
 
-            BRD b = new BRD( "pex5[11854]" );
+            BRD b = new BRD("tapir[2312412]");
+
+            //BRD b = new BRD( "bambpex(pid=11854,ipaddr=128.0.0.1)/m212x128,devreg" );
 
             ServiceList serviceList = b.serviceList;
 

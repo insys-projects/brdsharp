@@ -286,6 +286,11 @@ namespace brd
 
 
         public int Length { get { return _list.Length; } }
+
+        public BRD_ServList[] toArray()
+        {
+            return _list;
+        }
     }
 
     public class BRD
